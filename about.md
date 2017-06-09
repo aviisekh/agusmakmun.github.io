@@ -4,6 +4,6 @@ title: About
 permalink: /about/
 ---
 
-I am freelance developer. Currently doing more in backend, focused in Python and Django.
+I am full stack developer at Leapfrog Technologies. Currently doing more in Rails and Jquery.
 
-email: agus[at]python.web.id
+email: aviisekh@gmail.com

@@ -1,11 +1,11 @@
 title: Stack Problems
 description: My Personal Stack Problems
-author: Agus Makmun
-github: https://github.com/agusmakmun
-about: I am freelance developer. Currently doing more in backend, focused in Python and Django.
-disqus_shortname: stackproblems
+author: Abhishek Bhatta
+github: https://github.com/aviisekh
+about: I am full stack developer at Leapfrog Technologies. Currently doing more in Rails and Jquery.
+disqus_shortname: aviisekh
 google_analytics: UA-XXXXXXXX-Y
-avatar_url: /static/img/avatar.jpg
+avatar_url: /static/img/pp.jpg
 
 enableTags: true
 tagarray: []
@@ -19,17 +19,17 @@ social:
     - icon: fa-facebook
       link: "#"
     - icon: fa-twitter
-      link: "https://twitter.com/agusmakmun6"
+      link: "https://twitter.com/aviisekh"
     - icon: fa-linkedin
-      link: "https://www.linkedin.com/in/summonagus"
+      link: "https://www.linkedin.com/in/aviisekh"
     - icon: fa-stack-exchange
       link: "#"
     - icon: fa-github
-      link: "https://github.com/agusmakmun"
+      link: "https://github.com/aviisekh"
 
 share:
-  twitter_username: agusmakmun6
-  fb_appid: 1749788565247320
+  twitter_username: aviisekh
+  fb_appid: 1555157071182107
 
 urls:
     - text: About Me
@@ -39,7 +39,7 @@ urls:
     - text: XML Feed
       url: /feed.xml
 
-url: "https://agusmakmun.github.io"
+url: "https://aviisekh.github.io"
 baseurl: ""
 paginate: 20
 per_page: 20
