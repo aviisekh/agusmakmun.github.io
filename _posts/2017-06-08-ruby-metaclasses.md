@@ -79,6 +79,8 @@ puts tiger_woods.team_name #=> undefined method `team_name'
 ### Examples
 
 #### Example 1:
+The example below shows the variations in the implementation of metaclass. 
+
 ```ruby
 class Person end
 class<<Person #metaclass of a class
@@ -115,6 +117,8 @@ puts p1.family #=> I am Poudels
 
 #### Example 2:
 
+Suppose you have two string objects ```a``` and ```b```. ```a``` may refer to the currency while ```b``` may not. So some money methods can be implemented in string ```a```. Follow the example. 
+
 ```ruby
 a= "$100"
 b= "1000000"
@@ -136,6 +140,8 @@ puts a.in_pounds #=> £78.0
 puts a.in_nepalese_rupee #=> NRs 10285.0
 puts b.in_nepalese_rupee #=> undefined method 'in_nepalese_rupee'
 ```
+
+The above example can be implemented  in the following way as well.
 
 ```ruby
 a= "$100"
@@ -161,6 +167,8 @@ puts a.in_nepalese_rupee #=> NRs 10285.0
 puts b.in_nepalese_rupee #=> undefined method 'in_nepalese_rupee'
 
 ```
+
+The above example only defines the method for only one string object i.e. object ```a```. But we may need to define same methods for other money strings instances. We can generalize defining the metaclass for the object in the following way. 
 
 ```ruby
 a= "$100"
@@ -193,4 +201,7 @@ puts b.in_nepalese_rupee #=> undefined method 'in_nepalese_rupee'
 b.moneytize_me
 puts b.in_nepalese_rupee #=> NRs 102850000.0
 ```
+
+Since ```moneytize_me```  is an instance method, it can be called only by the instance of the String. So whenever ```moneytize_me``` method is invoked by the string instance, it gets the methods that perform the moneterial actions.
+
 
