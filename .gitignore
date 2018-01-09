@@ -4,3 +4,4 @@ _site*
 *backup/
 Guardfile
 test_files/*
+.vscode/*
