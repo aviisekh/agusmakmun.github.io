@@ -4,7 +4,7 @@ author: Abhishek Bhatta
 github: https://github.com/aviisekh
 about: I am full stack developer at Leapfrog Technologies. Currently doing more in Rails and Jquery.
 disqus_shortname: aviisekh
-google_analytics: UA-XXXXXXXX-Y
+google_analytics: UA-125244940-1
 avatar_url: /static/img/pp.jpg
 
 enableTags: true
@@ -45,7 +45,7 @@ paginate: 20
 per_page: 20
 paginate_path: "/page/:num/"
 markdown: kramdown
-gems:
+plugins:
   - jekyll-paginate
   - jekyll-gist
 

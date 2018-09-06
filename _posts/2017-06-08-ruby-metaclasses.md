@@ -37,7 +37,8 @@ So the role of  **metaclass** come in existence. In Ruby each object is also an 
 
 Metaclass also known as **eigenclass** or **singleton class** is the class that stores the singleton methods of an instance where singleton methods are the methods that are specific to the object. When you declare a singleton method on an object, Ruby automatically creates a metaclass to hold just that method. All subsequent singleton methods of this object goes to its metaclass. Whenever you send a message to the object, it first looks to see whether the method exists in its metaclass. If it is not there, it gets propagated to the actual class of the object and if it is not found there, the message traverses the inheritance hierarchy.
 
-Let us look at an example:    
+Let us look at an example:   
+
 ```ruby
 class Player end
 messi = Player.new
