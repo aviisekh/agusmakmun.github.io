@@ -2,7 +2,7 @@
 layout: post
 title:  "Beautiful Rails Model"
 date:   2019-03-18 10:38:10 +0545
-categories: [ruby, ruby on rails]
+categories: [ruby, ror]
 ---
 
 
