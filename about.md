@@ -4,6 +4,6 @@ title: About
 permalink: /about/
 ---
 
-I am full stack developer at Leapfrog Technologies. Currently doing more in Rails and Jquery.
+I am currently working as ROR consultant in Fleetpanda of Burritolabs Inc.
 
 email: aviisekh@gmail.com
