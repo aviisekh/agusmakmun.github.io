@@ -5,3 +5,4 @@ _site*
 Guardfile
 test_files/*
 .vscode/*
+.idea
