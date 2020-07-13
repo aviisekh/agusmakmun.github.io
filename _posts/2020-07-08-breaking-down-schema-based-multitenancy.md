@@ -1,19 +1,12 @@
----
-layout: post
-title:  "Breaking down schema based multitenancy"
-date:   2020-07-08 10:38:10 +0545
-categories: [ruby, ror, postgresql, multitenancy, apartment, acts_as_tenant]
----
-
 ### Background
 We had a SAAS platform built in Ruby on Rails, where multiple vendors could setup their account and provide their services to their own customers.
-So basically, the SAAS vendor himself will be responsible to manage their customers and their services. So there was a need of proper isolation 
+And the SAAS vendor himself will be responsible to manage their customers and their services. So there was a need of proper isolation 
 of the data of various vendors that provide service through our platform. 
 
 This whole architecture was supported by the postgres schemas, where we create a separate schema for the separate vendor
 and that schema contains all the necessary tables.  We used the very popular gem **apartment gem** to support the schema switching and handling the migrations. 
 
-But in the due run, we were facing various problems with this architecure, and the major one was sharing the data across various tenants. If you want to explore 
+But in the due run, we faced various problems with this architecure, and the major one was sharing the data across various tenants. If you want to explore 
 more issues with this architecture and with using apartment gem, here is the link below:
 
 [Journey with apartment!](https://influitive.io/our-multi-tenancy-journey-with-postgres-schemas-and-apartment-6ecda151a21f)
@@ -22,7 +15,7 @@ In this article we discuss the breakdown of postgres schema based multitenant ar
 Moreover we discuss about the challenge that we came across during this migration, and the solution to it. 
 
 ### Moving on
-The whole problem is categorized into two sections. 
+The whole solution is caracterized into two steps. 
 1. Refactoring the codebase
 2. Migration of data 
 
@@ -52,29 +45,30 @@ we need to ensure the bar points to the correct foo after migration.
 
 ### The Migration Algorithm
 Let us consider **public** as the target schema, where we will be merging the records from all other schemas.
+
 1. Add a migration that adds foreign key tenant_id in all tables except shared tables and add the respective tenant value as well. 
-```ruby
- # migration to add the tenant_id in all tables
- def up
-  shared_tables =  ["schema_migrations"]
-  tables = ActiveRecord::Base.connection.tables.reject{|x| shared_tables.include?x}
-  tenant_id = Tenant.find_by_database_name(Apartment::Tenant.current).id
-  tables.each do |table|
-        add_reference table, :tenant
-        query = %Q(UPDATE "#{table.to_s}" SET "tenant_id" = #{tenant_id})
-        execute query
-  end
-end
-```
+    ```ruby
+     # migration to add the tenant_id in all tables
+     def up
+      shared_tables =  ["schema_migrations"]
+      tables = ActiveRecord::Base.connection.tables.reject{|x| shared_tables.include?x}
+      tenant_id = Tenant.find_by_database_name(Apartment::Tenant.current).id
+      tables.each do |table|
+            add_reference table, :tenant
+            query = %Q(UPDATE "#{table.to_s}" SET "tenant_id" = #{tenant_id})
+            execute query
+      end
+    end
+    ```
 
 2. Iterating in each postgresql schema
-    1. Identify all these tables' offset value. 
+	1. Identify all these tables' offset value. 
         
         Suppose, in users table, if public tenants' users' last id is 100.
         The offset value for users table will be 100+100(offset) = 200. 
         Similarly for all the other tables. 
-    2. Iterating in each table
-        1. Fetch all data of table
+	2. Iterating in each table
+		1. Fetch all data of table
         2. Transform its primary id with the corresponding offset
         
             eg. User with id 1 will be the user with id (200 + 1) = 201
@@ -93,3 +87,15 @@ end
                     2+200 = 202
                     
         5. Copy new the transformed values into corresponding table in the public tenant.
+        
+So the final migration of a single table looks like this: 
+```ruby
+  def migrate_users
+    table = DataMigrator::Table.new("users") # The class that handles the transformation of valules 
+    table.transform_values("id", @users_offset)
+    table.transform_values("organization_id", @organizations_offset)
+    table.transform_polymorphic_values("commentable", { "User": @users_offset, "Organization": @organizations_offset }) # where commentable is the polymorphic column
+    table.transform_json_values("activity", { users_offset: @users_offset, organizations_offset: @organizations_offset })  # where activity is the jsonb type of column and contains the references to users and organizations tables
+    table.copy_to_target # Copies to the target tenants' users table. 
+  end
+```
